@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImageItem, LoaderServiceService, PopUpsService, ProductModel, ProductsRepositoryService } from '../../../common';
+import {v4 as uuidv4} from 'uuid';
+
+declare var MainJS: any;
 
 @Component({
   selector: 'app-add-product',
@@ -39,12 +42,14 @@ export class AddProductComponent {
   ];
 
   ngOnInit(): void {
+    this.initScripts()
   }
 
   onSubmit() {
     this.loaderService.display(true)
     if (this.productForm.valid) {
       const formData = this.productForm.value as ProductModel;
+      formData.uuid = uuidv4();
       this.productRepository.addProduct(formData)
       this.loaderService.display(false)
       this.alerts.showAlert("¡Éxito!", "Se ha completado la operación con éxito.", "success")
@@ -52,6 +57,10 @@ export class AddProductComponent {
       this.loaderService.display(false)
       this.alerts.showAlert("Error!", "El formulario es invalido.", "error")
     }
+  }
+
+  initScripts():void{
+    MainJS.init()
   }
 
   onImageSelected(event: any) {

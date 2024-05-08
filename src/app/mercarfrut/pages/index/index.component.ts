@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { LoaderServiceService, PopUpsService, ProductModel, ProductsRepositoryService } from '../../../common';
+import {Component} from '@angular/core';
+
+declare var MainJS: any;
 
 @Component({
   selector: 'app-index',
@@ -8,31 +9,15 @@ import { LoaderServiceService, PopUpsService, ProductModel, ProductsRepositorySe
 })
 export class IndexComponent {
 
-  constructor(
-    private productsRepository: ProductsRepositoryService,
-    private alert:PopUpsService,
-    private loaderService:LoaderServiceService
-  ) { }
+  constructor() {
+  }
 
-  test() {
-    this.loaderService.display(true);
+  ngOnInit(): void {
+    this.initScripts()
+  }
 
-    const product: ProductModel = new ProductModel();
-    product.uuid = '12345678-90ab-cdef-1234-567890abcdef',
-    product.nombre = 'Camiseta Angular',
-    product.precio = 29.99,
-    product.descripcion = 'Una camiseta para los fanáticos de Angular',
-    product.imagen = 'https://example.com/angular-t-shirt.jpg',
-    product.cantidad = 10
-
-    this.productsRepository.addProduct(product).then(() => {
-      this.loaderService.display(false);
-      this.alert.showAlert('¡Éxito!', 'La operación se realizó correctamente.', 'success');
-    }).catch( () => {
-      this.loaderService.display(false);
-      this.alert.showAlert('Error!', 'Error en la operación.', 'error');
-    });
-
+  initScripts() {
+    MainJS.init();
   }
 
 }

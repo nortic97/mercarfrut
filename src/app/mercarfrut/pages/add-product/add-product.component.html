@@ -1,38 +1,44 @@
 <section class="checkout spad">
-    <div class="container">
-        <div class="checkout__form">
-            <form [formGroup]="productForm">
-                <div class="checkout__input">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" formControlName="nombre">
-                </div>
-                <div class="checkout__input">
-                    <label for="precio">Precio:</label>
-                    <input type="number" id="precio" formControlName="precio">
-                </div>
-                <div class="checkout__input">
-                    <label for="descripcion">Descripción:</label>
-                    <input id="descripcion" formControlName="descripcion">
-                </div>
-                <div>
-                    <select id="imagen" formControlName="imagen" (change)="onImageSelected($event)">
-                        <option *ngFor="let image of images" [value]="image.path">{{ image.name }}</option>
-                    </select>
-                </div>
-                <br>
-                <div *ngIf="productForm.get('imagen')?.value">
-                    <label>Vista previa:</label>
-                    <br>
-                    <img [src]="productForm.get('imagen')?.value" alt="Vista previa de la imagen"
-                        style="max-width: 200px;">
-                </div>
-                <br>
-                <div class="checkout__input">
-                    <label for="cantidad">Cantidad:</label>
-                    <input type="number" id="cantidad" formControlName="cantidad">
-                </div>
-            </form>
-            <button (click)="onSubmit()" class="site-btn">Guardar</button>
+  <div class="container">
+    <div class="checkout__form">
+      <form [formGroup]="productForm">
+        <div class="checkout__input">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" formControlName="nombre">
         </div>
+        <div class="checkout__input">
+          <label for="precio">Precio:</label>
+          <input type="number" id="precio" formControlName="precio">
+        </div>
+        <div class="checkout__input">
+          <label for="descripcion">Descripción:</label>
+          <input id="descripcion" formControlName="descripcion">
+        </div>
+        <div *ngIf="images">
+          <div class="filter__sort">
+            <span>Imagen:</span>
+            <select id="imagen" formControlName="imagen" (change)="onImageSelected($event)" >
+            <option>Seleccione una Imagen</option>
+              @for (image of images; track image) {
+                <option [value]="image.path">{{ image.name }}</option>
+              }
+            </select>
+          </div>
+          <br>
+          <div *ngIf="productForm.get('imagen')?.value">
+            <label>Vista previa:</label>
+            <br>
+            <img [src]="productForm.get('imagen')?.value" alt="Vista previa de la imagen"
+                 style="max-width: 200px;">
+          </div>
+          <br>
+          <div class="checkout__input">
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" id="cantidad" formControlName="cantidad">
+          </div>
+        </div>
+      </form>
+      <button (click)="onSubmit()" class="site-btn">Guardar</button>
     </div>
+  </div>
 </section>

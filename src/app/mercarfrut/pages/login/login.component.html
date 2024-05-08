@@ -1,0 +1,17 @@
+<div class="login-page">
+  <div class="form">
+    <form class="register-form" [formGroup]="userForm">
+      <input type="text" placeholder="Nombre Completo" formControlName="fullName"/>
+      <input type="password" placeholder="Contraseña" formControlName="password"/>
+      <input type="text" placeholder="Correo" formControlName="email"/>
+      <button (click)="createUser()">Crear</button>
+      <p class="message">¿ya estas registrado? <a type="button" id="login">Inicia Sesion</a></p>
+    </form>
+    <form class="login-form" [formGroup]="loginForm">
+      <input type="text" placeholder="correo" formControlName="email"/>
+      <input type="password" placeholder="Contraseña" formControlName="password"/>
+      <button (click)="login()">Iniciar Sesion</button>
+      <p class="message" type="button">¿No estas registrado? <a>Crear Una Cuenta</a></p>
+    </form>
+  </div>
+</div>

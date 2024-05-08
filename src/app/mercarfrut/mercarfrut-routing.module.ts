@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { MercarfrutComponent } from './mercarfrut.component';
-import { IndexComponent } from './pages/index/index.component';
-import { AddProductComponent } from './pages/add-product/add-product.component';
-import { ShopComponent } from './pages/shop/shop.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {MercarfrutComponent} from './mercarfrut.component';
+import {IndexComponent} from './pages/index/index.component';
+import {AddProductComponent} from './pages/add-product/add-product.component';
+import {ShopComponent} from './pages/shop/shop.component';
+import {CheckoutComponent} from "./pages/checkout/checkout.component";
 
 const routes: Routes = [
   {
@@ -14,7 +15,7 @@ const routes: Routes = [
   {
     path: 'home',
     component: MercarfrutComponent,
-    children:[
+    children: [
       {
         path: 'store',
         component: IndexComponent
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'shop',
         component: ShopComponent
+      },
+      {
+        path: 'checkout',
+        component: CheckoutComponent
       }
     ]
   }
@@ -35,4 +40,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MercarfrutRoutingModule { }
+export class MercarfrutRoutingModule {
+}

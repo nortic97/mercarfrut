@@ -1,7 +1,9 @@
 <router-outlet>
   <!-- Page Preloder -->
-  <div id="preloder" *ngIf="showLoader">
-    <div class="loader"></div>
-  </div>
+  @if (showLoader) {
+    <div id="preloder">
+      <div class="loader"></div>
+    </div>
+  }
   <!-- Page Preloder End -->
 </router-outlet>

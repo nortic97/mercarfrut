@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+
+declare var MainJS: any;
 
 @Component({
   selector: 'app-mercarfrut',
@@ -6,5 +8,13 @@ import { Component } from '@angular/core';
   styleUrl: './mercarfrut.component.css'
 })
 export class MercarfrutComponent {
+
+  ngOnInit(): void {
+    this.initScripts()
+  }
+
+  initScripts(): void {
+    MainJS.init();
+  }
 
 }
