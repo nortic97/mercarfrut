@@ -5,6 +5,8 @@ import {IndexComponent} from './pages/index/index.component';
 import {AddProductComponent} from './pages/add-product/add-product.component';
 import {ShopComponent} from './pages/shop/shop.component';
 import {CheckoutComponent} from "./pages/checkout/checkout.component";
+import {PaymentGatewayComponent} from "./pages/payment-gateway/payment-gateway.component";
+import {ThanksPageComponent} from "./pages/thanks-page/thanks-page.component";
 
 const routes: Routes = [
   {
@@ -31,6 +33,14 @@ const routes: Routes = [
       {
         path: 'checkout',
         component: CheckoutComponent
+      },
+      {
+        path: 'payment',
+        component: PaymentGatewayComponent
+      },
+      {
+        path: 'thanks',
+        component: ThanksPageComponent
       }
     ]
   }

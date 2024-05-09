@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ErrorPageComponent } from './common/components/error-page/error-page.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {ErrorPageComponent} from './common/components/error-page/error-page.component';
 import {LoginComponent} from "./mercarfrut/pages/login/login.component";
+import {CreditCardComponent} from "./mercarfrut/pages/credit-card/credit-card.component";
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'credit-card',
+    component: CreditCardComponent
+  },
+  {
     path: '**',
     component: ErrorPageComponent
   }
@@ -22,4 +27,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

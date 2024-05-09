@@ -11,6 +11,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ShopComponent } from './pages/shop/shop.component';
 import { LoginComponent } from './pages/login/login.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { PaymentGatewayComponent } from './pages/payment-gateway/payment-gateway.component';
+import { CreditCardComponent } from './pages/credit-card/credit-card.component';
+import { ThanksPageComponent } from './pages/thanks-page/thanks-page.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
     AddProductComponent,
     ShopComponent,
     LoginComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    PaymentGatewayComponent,
+    CreditCardComponent,
+    ThanksPageComponent
   ],
     imports: [
         CommonModule,

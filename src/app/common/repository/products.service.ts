@@ -15,7 +15,7 @@ export class ProductsRepositoryService {
 
   // Create a new product
   async addProduct(product: ProductModel): Promise<DocumentReference<ProductModel>> {
-    return this.productsCollection.add({ ... product });
+    return this.productsCollection.add({...product});
   }
 
   // Get all products list
@@ -24,8 +24,19 @@ export class ProductsRepositoryService {
   }
 
   // Update Product Data
-  updateProduct(product: ProductModel): Promise<void> {
-    return this.productsCollection.doc(product.uuid).update(product);
+  async updateProductQuantity(uuid: string, newQuantity: number): Promise<void> {
+    try {
+      // Realizar la consulta para obtener el documento del producto con el uuid especificado
+      const querySnapshot = await this.productsCollection.ref.where('uuid', '==', uuid).get();
+
+      // Iterar sobre los resultados de la consulta (debería haber solo un documento)
+      querySnapshot.forEach(async (doc) => {
+        // Actualizar el campo cantidad del documento con el nuevo valor
+        await this.productsCollection.doc(doc.id).update({cantidad: newQuantity});
+      });
+    } catch (error) {
+      return ;
+    }
   }
 
   // Get user data by email

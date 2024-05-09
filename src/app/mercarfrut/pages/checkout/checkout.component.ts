@@ -1,5 +1,15 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import {LoaderServiceService, PopUpsService, ProductModel, ProductsRepositoryService} from "../../../common";
+import {
+  InvoiceModel,
+  LoaderServiceService,
+  PopUpsService, ProductInvoiceModel,
+  ProductModel,
+  ProductsRepositoryService, UserModel,
+  VariableEmitterService
+} from "../../../common";
+import {v4 as uuidv4} from "uuid";
+import {InvoiceService} from "../../../common/repository/invoice.service";
+import {Router} from "@angular/router";
 
 declare var MainJS: any;
 
@@ -20,24 +30,30 @@ export class CheckoutComponent {
     private productRepository: ProductsRepositoryService,
     private loader: LoaderServiceService,
     private alert: PopUpsService,
+    private variableEmitterServie: VariableEmitterService,
+    private invoiceRepository: InvoiceService,
+    private router: Router
   ) {
   }
 
 
   ngOnInit(): void {
-    this.loader.display(true);
     // Inicializar shopCart después de recuperar los datos de sessionStorage
     const shopCartData = sessionStorage.getItem('shopCart');
     this.shopCart = shopCartData ? new Map(JSON.parse(shopCartData)) : new Map<string, number>();
 
-    this.shopCart.forEach((v, k) => {
-      this.productRepository.getProduct(k).then(r => {
-        if (r != null) {
-          this.shopList.push(r);
-          this.loader.display(false);
-        }
+    if (this.shopCart.size > 0) {
+      this.loader.display(true);
+      this.shopCart.forEach((v, k) => {
+        this.productRepository.getProduct(k).then(r => {
+          if (r != null) {
+            this.shopList.push(r);
+            this.updateTotal();
+            this.loader.display(false);
+          }
+        })
       })
-    })
+    }
 
     this.initScripts();
   }
@@ -52,7 +68,7 @@ export class CheckoutComponent {
       this.shopCart.delete(product.uuid!);
     } else {
       // La cantidad excede el límite, mostrar un mensaje de error o tomar otra acción
-      this.alert.showAlert('Error', 'La cantidad excede el límite disponible. limite: '+product.cantidad, "error")
+      this.alert.showAlert('Error', 'La cantidad excede el límite disponible. limite: ' + product.cantidad, "error")
       // Aquí podrías mostrar un mensaje de error al usuario o tomar otra acción apropiada
       return; // Detener la ejecución de la función
     }
@@ -72,17 +88,17 @@ export class CheckoutComponent {
       const itemTotal = product.precio! * quantity; // Calcular el total del producto multiplicando el precio por la cantidad
       this.subtotal += itemTotal; // Sumar al subtotal
     });
-    sessionStorage.setItem('totalPrice', JSON.stringify(this.total));
+    sessionStorage.setItem('totalPrice', JSON.stringify(this.subtotal));
+    this.variableEmitterServie.updatetotalPrice(this.subtotal);
     this.total = this.subtotal; // Establecer el total igual al subtotal inicialmente
   }
 
   removeItem(product: ProductModel): void {
-console.log(product.uuid!)
+    this.cont--;
     // Elimina el producto del carrito
     if (this.shopCart.has(product.uuid!)) {
       this.shopCart.delete(product.uuid!);
       sessionStorage.setItem('shopCart', JSON.stringify(Array.from(this.shopCart.entries())));
-      sessionStorage.setItem('itemsShopingCart', String(this.cont-1));
     }
 
     // Encuentra y elimina el producto de la lista de productos
@@ -91,9 +107,73 @@ console.log(product.uuid!)
       this.shopList.splice(index, 1);
     }
 
+    this.variableEmitterServie.updateItemsShopingCart(this.cont);
+    sessionStorage.setItem('itemsShopingCart', String(this.cont));
+
     this.updateTotal(); // Actualiza el total después de eliminar el producto
   }
 
+  getValue(product: ProductModel): number {
+    let value = 1; // Valor predeterminado
+
+    // Iterar sobre los elementos del mapa shopCart
+    this.shopCart.forEach((quantity, productId) => {
+      // Verificar si el ID del producto coincide con el ID del producto proporcionado
+      if (productId === product.uuid) {
+        // Asignar el valor de la cantidad del producto a la variable value
+        value = quantity;
+      }
+    });
+
+    return value; // Devolver el valor de la cantidad del producto
+  }
+
+  createInvoice(): void {
+    this.loader.display(true);
+    let factura: InvoiceModel = new InvoiceModel();
+    factura.uuid = uuidv4();
+    factura.cliente = JSON.parse(sessionStorage.getItem('user')!) as UserModel || null;
+    factura.productos = [];
+    factura.subtotal = this.subtotal;
+    factura.total = this.total;
+
+    let promises: Promise<void>[] = [];
+
+    this.shopCart.forEach((v, k) => {
+      const productPromise = this.productRepository.getProduct(k).then(r => {
+        if (r && r.cantidad !== 0) {
+          let producto: ProductInvoiceModel = new ProductInvoiceModel();
+          producto.productName = r.nombre;
+          producto.precio = (r.precio! * v);
+          producto.cantidad = v;
+
+          let obj = Object.assign({},producto);
+
+          factura.productos!.push(obj);
+
+          // Actualizar la cantidad del producto
+          promises.push(
+            this.productRepository.updateProductQuantity(k, r.cantidad! - v).catch(error => {
+              this.alert.showAlert('Error', 'La cantidad excede el producto.', 'error');
+            })
+          );
+        }
+      });
+
+      promises.push(productPromise);
+    });
+
+    Promise.all(promises).then(() => {
+      sessionStorage.setItem('invoice', JSON.stringify(factura));
+      this.invoiceRepository.addInvoice(factura).then(() => {
+        this.loader.display(false);
+        this.router.navigate(['/home/payment']);
+      }).catch(error => {
+        this.loader.display(false);
+        console.error('Error al agregar la factura:', error);
+      });
+    });
+  }
 
   initScripts() {
     MainJS.init();

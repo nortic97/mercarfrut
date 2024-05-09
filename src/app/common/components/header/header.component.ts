@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {UserModel} from "../../models";
 import {Router} from "@angular/router";
+import {VariableEmitterService} from "../../services";
 
 declare var MainJS: any;
 
@@ -16,14 +17,22 @@ export class HeaderComponent {
   public totalPrice: Number = 0;
   public favorites: Number = 0;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private variableEmitterService: VariableEmitterService,
+  ) {
   }
 
   ngOnInit(): void {
-    this.userModel = JSON.parse(sessionStorage.getItem('user')!) as UserModel;
-    this.itemsShopingCart = Number(sessionStorage.getItem('itemsShopingCart') || 0);
-    this.totalPrice = Number(sessionStorage.getItem('totalPrice') || 0);
-    this.favorites = Number(sessionStorage.getItem('favorites') || 0);
+    setTimeout(()=>{
+      this.userModel = JSON.parse(sessionStorage.getItem('user')!) as UserModel;
+      this.itemsShopingCart = Number(sessionStorage.getItem('itemsShopingCart') || 0);
+      this.totalPrice = Number(sessionStorage.getItem('totalPrice') || 0);
+      this.favorites = Number(sessionStorage.getItem('favorites') || 0);
+    },200)
+
+    this.initUpdateItemsShopingCart();
+    this.initUpdateTotalPrice();
     this.initScript();
   }
 
@@ -35,6 +44,18 @@ export class HeaderComponent {
 
   initScript(){
     MainJS.init();
+  }
+
+  initUpdateItemsShopingCart(){
+    this.variableEmitterService.itemsShopingCart.subscribe((valor) => {
+      this.itemsShopingCart = valor;
+    });
+  }
+
+  initUpdateTotalPrice() {
+    this.variableEmitterService.totalPrice.subscribe((valor) => {
+      this.totalPrice = valor;
+    });
   }
 
 }

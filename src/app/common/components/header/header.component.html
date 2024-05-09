@@ -6,10 +6,10 @@
   </div>
   <div class="humberger__menu__cart">
     <ul>
-      <li><a href="#"><i class="fa fa-heart"></i> <span>{{ favorites }}</span></a></li>
+      <li><a><i class="fa fa-heart"></i> <span>{{ favorites }}</span></a></li>
       <li><a routerLink="/home/checkout"><i class="fa fa-shopping-bag"></i><span>{{ itemsShopingCart }}</span></a></li>
     </ul>
-    <div class="header__cart__price">item: <span>{{ totalPrice.toString() | currency }}</span></div>
+    <div class="header__cart__price">items: <span>{{ totalPrice.toString() | currency }}</span></div>
   </div>
   @if (userModel == null) {
     <div class="humberger__menu__widget">
@@ -24,7 +24,7 @@
         <div>{{ userModel.fullName }}</div>
         <span class="arrow_carrot-down"></span>
         <ul>
-          <li><a href="#">Opciones</a></li>
+          <li><a>Opciones</a></li>
           <li><a (click)="logOut()">Salir</a></li>
         </ul>
       </div>
@@ -32,28 +32,27 @@
   }
   <nav class="humberger__menu__nav mobile-menu">
     <ul>
-      <li class="active"><a href="./index.html">Inicio</a></li>
+      <li class="active"><a routerLink="/home/store">Inicio</a></li>
       <li><a routerLink="shop">Shop</a></li>
       @if (userModel?.role == 'ADMIN') {
-        <li><a href="#">Administrar</a>
+        <li><a>Administrar</a>
           <ul class="header__menu__dropdown">
-            <li><a href="./shop-details.html">Detalles</a></li>
-            <li><a href="./shoping-cart.html">Carrito de Compras</a></li>
-            <li><a href="./checkout.html">Pagos</a></li>
-            <li><a href="./blog-details.html">Blog</a></li>
+            <li><a>Inventario</a></li>
+            <li><a>Facturas</a></li>
+            <li><a>Blog</a></li>
           </ul>
         </li>
       }
-      <li><a href="./blog.html">Blog</a></li>
-      <li><a href="./contact.html">Contacto</a></li>
+      <li><a>Blog</a></li>
+      <li><a>Contacto</a></li>
     </ul>
   </nav>
   <div id="mobile-menu-wrap"></div>
   <div class="header__top__right__social">
-    <a href="#"><i class="fa fa-facebook"></i></a>
-    <a href="#"><i class="fa fa-twitter"></i></a>
-    <a href="#"><i class="fa fa-linkedin"></i></a>
-    <a href="#"><i class="fa fa-pinterest-p"></i></a>
+    <a><i class="fa fa-facebook"></i></a>
+    <a><i class="fa fa-twitter"></i></a>
+    <a><i class="fa fa-linkedin"></i></a>
+    <a><i class="fa fa-pinterest-p"></i></a>
   </div>
   <div class="humberger__menu__contact">
     <ul>
@@ -96,7 +95,7 @@
                   <div>{{ userModel.fullName }}</div>
                   <span class="arrow_carrot-down"></span>
                   <ul>
-                    <li><a href="#">Opciones</a></li>
+                    <li><a>Opciones</a></li>
                     <li><a (click)="logOut()">Salir</a></li>
                   </ul>
                 </div>
@@ -117,28 +116,28 @@
       <div class="col-lg-6">
         <nav class="header__menu">
           <ul>
-            <li class="active"><a href="./index.html">Inicio</a></li>
+            <li class="active"><a routerLink="/home/store">Inicio</a></li>
             <li><a routerLink="shop">Tienda</a></li>
             @if (userModel?.role == 'ADMIN') {
-              <li><a href="#">Administrar</a>
+              <li><a>Administrar</a>
                 <ul class="header__menu__dropdown">
-                  <li><a href="./shop-details.html">Detalles</a></li>
-                  <li><a href="./shoping-cart.html">Carrito de Compras</a></li>
-                  <li><a href="./checkout.html">Pagos</a></li>
-                  <li><a href="./blog-details.html">Blog</a></li>
+                  <li><a>Inventario</a></li>
+                  <li><a>Pagos</a></li>
+                  <li><a>Blog</a></li>
                 </ul>
               </li>
             }
-            <li><a href="./blog.html">Blog</a></li>
-            <li><a href="./contact.html">Contacto</a></li>
+            <li><a>Blog</a></li>
+            <li><a>Contacto</a></li>
           </ul>
         </nav>
       </div>
       <div class="col-lg-3">
         <div class="header__cart">
           <ul>
-            <li><a href="#"><i class="fa fa-heart"></i> <span>{{ favorites }}</span></a></li>
-            <li><a routerLink="/home/checkout"><i class="fa fa-shopping-bag"></i> <span>{{ itemsShopingCart }}</span></a></li>
+            <li><a><i class="fa fa-heart"></i> <span>{{ favorites }}</span></a></li>
+            <li><a routerLink="/home/checkout"><i class="fa fa-shopping-bag"></i>
+              <span>{{ itemsShopingCart }}</span></a></li>
           </ul>
           <div class="header__cart__price">item: <span>{{ totalPrice.toString() | currency }}</span></div>
         </div>

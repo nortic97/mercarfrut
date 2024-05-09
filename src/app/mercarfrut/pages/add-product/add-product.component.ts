@@ -52,6 +52,7 @@ export class AddProductComponent {
       formData.uuid = uuidv4();
       this.productRepository.addProduct(formData)
       this.loaderService.display(false)
+      this.productForm.reset();
       this.alerts.showAlert("¡Éxito!", "Se ha completado la operación con éxito.", "success")
     } else {
       this.loaderService.display(false)

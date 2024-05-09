@@ -1,0 +1,76 @@
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+  <div class="container">
+    <div class="checkout__form">
+      <h4>Detalle de compra</h4>
+      <form [formGroup]="checkoutForm">
+        <div class="row">
+          <div class="col-lg-8 col-md-6">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="checkout__input">
+                  <p>Nombre Completo<span>*</span></p>
+                  <input type="text" formControlName="fullName">
+                </div>
+              </div>
+            </div>
+            <div class="checkout__input">
+              <p>pais<span>*</span></p>
+              <input type="text" formControlName="country">
+            </div>
+            <div class="checkout__input">
+              <p>Direccion<span>*</span></p>
+              <input type="text" placeholder="Direccion" class="checkout__input__add" formControlName="address">
+              <input type="text" placeholder="Datos adicionales" formControlName="additionalData">
+            </div>
+            <div class="checkout__input">
+              <p>Ciudad/Barrio<span>*</span></p>
+              <input type="text" formControlName="city">
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="checkout__input">
+                  <p>Telefono<span>*</span></p>
+                  <input type="text" formControlName="phone">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="checkout__input">
+                  <p>Correo<span>*</span></p>
+                  <input type="text" formControlName="email">
+                </div>
+              </div>
+            </div>
+            <div class="checkout__input__checkbox">
+              <label for="acc">
+                ¿crear una cuenta?
+                <input type="checkbox" id="acc" formControlName="createAccount">
+                <span class="checkmark"></span>
+              </label>
+            </div>
+            <p>Cree una cuenta introduciendo la siguiente información. Si ya es cliente, inicie sesión en la parte
+              superior de la página.</p>
+            <div class="checkout__input" *ngIf="checkoutForm.get('createAccount')?.value">
+              <p>Contraseña<span>*</span></p>
+              <input type="password" formControlName="password">
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="checkout__order">
+              <h4>Tu compra</h4>
+              <div class="checkout__order__products">Productos <span>Total</span></div>
+              <ul>
+                <li *ngFor="let item of invoice.productos">{{ item.productName }}
+                  <span>{{ item.precio | currency }}</span></li>
+              </ul>
+              <div class="checkout__order__subtotal">Subtotal <span>{{ invoice.subtotal | currency }}</span></div>
+              <div class="checkout__order__total">Total <span>{{ invoice.total | currency }}</span></div>
+              <button (click)="payButton()" class="site-btn">Continuar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<!-- Checkout Section End -->
