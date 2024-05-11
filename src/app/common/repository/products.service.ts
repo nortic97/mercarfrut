@@ -14,8 +14,8 @@ export class ProductsRepositoryService {
   }
 
   // Create a new product
-  async addProduct(product: ProductModel): Promise<DocumentReference<ProductModel>> {
-    return this.productsCollection.add({...product});
+  async addProduct(product: ProductModel): Promise<void> {
+    return this.productsCollection.doc(product.uuid).set({...product});
   }
 
   // Get all products list
@@ -35,11 +35,42 @@ export class ProductsRepositoryService {
         await this.productsCollection.doc(doc.id).update({cantidad: newQuantity});
       });
     } catch (error) {
-      return ;
+      return;
     }
   }
 
-  // Get user data by email
+  // Update Product Data
+  async updateProductData(uuid: string, newData: Partial<ProductModel>): Promise<void> {
+    try {
+      // Realizar la consulta para obtener el documento del producto con el uuid especificado
+      const querySnapshot = await this.productsCollection.ref.where('uuid', '==', uuid).get();
+
+      // Iterar sobre los resultados de la consulta (debería haber solo un documento)
+      querySnapshot.forEach(async (doc) => {
+        // Actualizar los campos del documento con los nuevos valores
+        await this.productsCollection.doc(doc.id).update(newData);
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateInventoryInBatch(products: ProductModel[]): Promise<void> {
+    try {
+      const batch = this.firestore.firestore.batch();
+
+      products.forEach(product => {
+        const productRef = this.productsCollection.doc(product.uuid).ref;
+        batch.update(productRef, product);
+      });
+
+      await batch.commit();
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  // Get product data by uuid
   async getProduct(uuid: string): Promise<ProductModel | null> {
     try {
       const querySnapshot = await this.productsCollection.ref.where('uuid', '==', uuid).get();
@@ -51,6 +82,23 @@ export class ProductsRepositoryService {
       }
     } catch (error) {
       return null;
+    }
+  }
+
+  // Delete Product by UUID
+  async deleteProductByUUID(uuid: string): Promise<void> {
+    try {
+      // Realizar la consulta para obtener el documento del producto con el UUID especificado
+      const querySnapshot = await this.productsCollection.ref.where('uuid', '==', uuid).get();
+
+      // Iterar sobre los resultados de la consulta (debería haber solo un documento)
+      querySnapshot.forEach(async (doc) => {
+        // Eliminar el documento
+        await this.productsCollection.doc(doc.id).delete();
+      });
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+      throw error;
     }
   }
 

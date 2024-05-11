@@ -14,6 +14,9 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { PaymentGatewayComponent } from './pages/payment-gateway/payment-gateway.component';
 import { CreditCardComponent } from './pages/credit-card/credit-card.component';
 import { ThanksPageComponent } from './pages/thanks-page/thanks-page.component';
+import { InventoryComponent } from './pages/inventory/inventory.component';
+import { OrdersComponent } from './pages/orders/orders.component';
+import { InvoicesComponent } from './pages/invoices/invoices.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { ThanksPageComponent } from './pages/thanks-page/thanks-page.component';
     CheckoutComponent,
     PaymentGatewayComponent,
     CreditCardComponent,
-    ThanksPageComponent
+    ThanksPageComponent,
+    InventoryComponent,
+    OrdersComponent,
+    InvoicesComponent
   ],
     imports: [
         CommonModule,

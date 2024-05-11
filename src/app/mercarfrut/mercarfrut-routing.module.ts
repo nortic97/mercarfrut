@@ -7,6 +7,9 @@ import {ShopComponent} from './pages/shop/shop.component';
 import {CheckoutComponent} from "./pages/checkout/checkout.component";
 import {PaymentGatewayComponent} from "./pages/payment-gateway/payment-gateway.component";
 import {ThanksPageComponent} from "./pages/thanks-page/thanks-page.component";
+import {InventoryComponent} from "./pages/inventory/inventory.component";
+import {OrdersComponent} from "./pages/orders/orders.component";
+import {InvoicesComponent} from "./pages/invoices/invoices.component";
 
 const routes: Routes = [
   {
@@ -41,6 +44,18 @@ const routes: Routes = [
       {
         path: 'thanks',
         component: ThanksPageComponent
+      },
+      {
+        path: 'inventory',
+        component: InventoryComponent
+      },
+      {
+        path: 'orders',
+        component: OrdersComponent
+      },
+      {
+        path: 'invoices',
+        component: InvoicesComponent
       }
     ]
   }

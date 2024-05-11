@@ -1,0 +1,53 @@
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="shoping__cart__table">
+          <table>
+            <thead>
+            <tr>
+              <th>Nombre Completo</th>
+              <th>Correo</th>
+              <th class="shoping__product">Productos</th>
+              <th>Subtotal</th>
+              <th>Total</th>
+              <th>Pago Aprobado</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let invoice of invoices">
+              <td class="shoping__cart__item">
+                <div>
+                  <h5>{{ invoice.cliente != null ? invoice.cliente.fullName : 'Cliente Sin Registro' }}</h5>
+                </div>
+              </td>
+              <td class="shoping__cart__item">
+                <div>
+                  <h5 >{{ invoice.cliente != null ? invoice.cliente.email : 'Cliente Sin Registro' }}</h5>
+                </div>
+              </td>
+              <td class="shoping__cart__item">
+                <ul style="list-style-type: none">
+                  <li *ngFor="let producto of invoice.productos">{{ producto.cantidad + ' ' + producto.productName }}
+                  </li>
+                </ul>
+              </td>
+              <td class="shoping__cart__item">
+                <h5>{{ invoice.subtotal | currency }}</h5>
+              </td>
+              <td class="shoping__cart__item">
+                <h5>{{ invoice.total | currency }}</h5>
+              </td>
+              <td class="shoping__cart__item">
+                <h5>{{ invoice.aprove ? 'Si' : 'No' }}</h5>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Shoping Cart Section End -->

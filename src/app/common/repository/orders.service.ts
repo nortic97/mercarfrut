@@ -16,4 +16,9 @@ export class OrdersService {
   async addorder(order: PaymentGatewayModel): Promise<DocumentReference<PaymentGatewayModel>> {
     return this.ordersCollection.add({...order});
   }
+
+  // Get all products list
+  getAll(): AngularFirestoreCollection<PaymentGatewayModel> {
+    return this.ordersCollection;
+  }
 }

@@ -121,9 +121,9 @@
             @if (userModel?.role == 'ADMIN') {
               <li><a>Administrar</a>
                 <ul class="header__menu__dropdown">
-                  <li><a>Inventario</a></li>
-                  <li><a>Pagos</a></li>
-                  <li><a>Blog</a></li>
+                  <li><a routerLink="/home/inventory">Inventario</a></li>
+                  <li><a routerLink="/home/invoices">Facturas</a></li>
+                  <li><a routerLink="/home/orders">Ordenes</a></li>
                 </ul>
               </li>
             }
